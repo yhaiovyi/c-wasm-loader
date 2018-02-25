@@ -1,0 +1,39 @@
+{
+  "name": "c-wasm-loader",
+  "version": "0.0.1",
+  "description": "c to wasm loader for webpack",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint --ignore-path .gitignore",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yhaiovyi/c-wasm-loader.git"
+  },
+  "keywords": [
+    "wasm",
+    "cpp",
+    "c",
+    "webassembly"
+  ],
+  "author": "Yurii Haiovyi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yhaiovyi/c-wasm-loader/issues"
+  },
+  "homepage": "https://github.com/yhaiovyi/c-wasm-loader#readme",
+  "dependencies": {
+    "loader-utils": "^1.1.0",
+    "md5": "^2.2.1",
+    "rimraf": "^2.6.2",
+    "schema-utils": "^0.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.7.0"
+  }
+}
