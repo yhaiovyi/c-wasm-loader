@@ -12,6 +12,7 @@ const rimraf = require('rimraf');
 const md5 = require('md5');
 const validateOptions = require('schema-utils');
 
+const packageJson = require('./package.json');
 const schema = require('./options.json');
 
 const $execFile = promisify(execFile);
@@ -21,7 +22,13 @@ const $mkdtemp = promisify(mkdtemp);
 const $rimraf = promisify(rimraf);
 
 function getDefaultEmccPath() {
-  return (platform() === 'win32') ? 'em++.bat' : 'em++';
+  return path.join(
+    process.cwd(),
+    'emsdk-portable',
+    'emscripten',
+    packageJson.emsdk,
+    (platform() === 'win32') ? 'em++.bat' : 'em++',
+  );
 }
 
 function toConsumableArray(array) {
@@ -79,7 +86,7 @@ module.exports = async function loader(content) {
     const indexFile = `${hash}.js`;
     const wasmFile = `${hash}.wasm`;
 
-    cwd = await $mkdtemp(path.join(tmpdir(), 'cpp-wasm-loader-'));
+    cwd = await $mkdtemp(path.join(tmpdir(), 'c-wasm-loader-'));
     await $writeFile(path.join(cwd, inputFile), content);
 
     const match = content.match(/^[\s\n]*\/\/\s*emcc-flags\s+([^\n]+)/);
