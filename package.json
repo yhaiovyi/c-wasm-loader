@@ -4,7 +4,7 @@
   "description": "c to wasm loader for webpack",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint --ignore-path .gitignore",
+    "lint": "eslint --ignore-path .gitignore .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
