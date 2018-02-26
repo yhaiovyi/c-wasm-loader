@@ -22,7 +22,6 @@ const $mkdtemp = promisify(mkdtemp);
 const $rimraf = promisify(rimraf);
 
 function getDefaultEmccPath() {
-  console.log(__dirname, '===================');
   return path.join(
     __dirname,
     'emsdk-portable',
@@ -54,7 +53,7 @@ function getBase(pathToFile) {
 module.exports = async function loader(content) {
   const callback = this.async();
   let cwd = null;
-console.log('==========================')
+
   try {
     let options = getOptions(this) || {};
     validateOptions(schema, options, 'C WASM Loader');
