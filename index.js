@@ -107,7 +107,7 @@ module.exports = async function loader(content) {
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
     const wasmContent = await $readFile(path.join(cwd, wasmFile));
 
-    indexContent = indexContent.replace(wasmFile, outputPath);
+    indexContent = indexContent.replace(new RegExp(`.(\\\\|/)${wasmFile}`, 'g'), outputPath);
 
     this.emitFile(outputPath, wasmContent);
 
