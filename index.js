@@ -119,7 +119,7 @@ module.exports = async function loader(content) {
               resolve(Module);
             },
             locateFile: function() {
-              return '${outputPath}';
+              return '${getBase(url)}.wasm';
             }
           };
           ${indexContent};
