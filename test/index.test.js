@@ -10,7 +10,7 @@ describe('Testing loader', () => {
     };
 
     const stats = await webpack('fixture.js', config);
-    const { source } = stats.toJson().modules[1];
+    const { source } = stats.toJson().modules.filter(({ name }) => (name === './hello.c'))[0];
 
     expect(source).toMatchSnapshot();
   });
