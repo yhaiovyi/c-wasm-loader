@@ -107,7 +107,7 @@ module.exports = async function loader(content) {
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
     const wasmContent = await $readFile(path.join(cwd, wasmFile));
 
-    indexContent = indexContent.replace(new RegExp(`.(\\\\|/)${wasmFile}`, 'g'), `./${outputPath}`);
+    indexContent = indexContent.replace(/var wasmBinaryFile="[^"]*"/, 'var wasmBinaryFile=""');
 
     this.emitFile(outputPath, wasmContent);
 
@@ -117,6 +117,9 @@ module.exports = async function loader(content) {
           var Module = {
             onRuntimeInitialized: function() {
               resolve(Module);
+            },
+            locateFile: function() {
+              return '${outputPath}';
             }
           };
           ${indexContent};
