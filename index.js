@@ -22,8 +22,9 @@ const $mkdtemp = promisify(mkdtemp);
 const $rimraf = promisify(rimraf);
 
 function getDefaultEmccPath() {
+  console.log(__dirname, '===================');
   return path.join(
-    process.cwd(),
+    __dirname,
     'emsdk-portable',
     'emscripten',
     packageJson.emsdk,
@@ -53,7 +54,7 @@ function getBase(pathToFile) {
 module.exports = async function loader(content) {
   const callback = this.async();
   let cwd = null;
-
+console.log('==========================')
   try {
     let options = getOptions(this) || {};
     validateOptions(schema, options, 'C WASM Loader');
@@ -107,7 +108,7 @@ module.exports = async function loader(content) {
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
     const wasmContent = await $readFile(path.join(cwd, wasmFile));
 
-    indexContent = indexContent.replace(new RegExp(`.(\\\\|/)${wasmFile}`, 'g'), outputPath);
+    indexContent = indexContent.replace(new RegExp(`.(\\\\|/)${wasmFile}`, 'g'), `./${outputPath}`);
 
     this.emitFile(outputPath, wasmContent);
 
