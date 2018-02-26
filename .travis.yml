@@ -1,13 +1,13 @@
 sudo: false
 language: node_js
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - cmake
-    - wget
-    - libstdc++6
+before_script:
+  - wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-5/libstdc++6_ 5.1.0-0ubuntu11~10.04.2_amd64.deb"
+  - sha256sum libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb 
+  - ar xv libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb
+  - tar xf data.tar.gz
+  - cd usr/lib/
+  - export LD_LIBRARY_PATH=${PWD}
+  - emcc
 matrix:
   include:
   - os: linux
@@ -16,12 +16,9 @@ matrix:
   - os: linux
     node_js: '8'
     env: JOB_PART=unit
-  - os: osx
-    node_js: '8'
-    env: JOB_PART=unit
   fast_finish: true
 install:
-- yarn install
+- yarn --frozen-lockfile
 script: npm run travis:$JOB_PART
 after_success:
 - cat ./coverage/lcov.info | node_modules/.bin/coveralls --verbose
