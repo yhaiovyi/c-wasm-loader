@@ -12,7 +12,8 @@
 [![tests][tests]][tests-url]
 [![coverage][cover]][cover-url]
 
-Webpack loader that allows you to import C/C++ files as WebAssembly. 
+Webpack loader that allows you to import C/C++ files as WebAssembly.
+NOTE: First C to WASM compilation usually takes up to 60 secs, then it's almost seemless.
 
 <h2 align="center">Install</h2>
 
