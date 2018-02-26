@@ -41,8 +41,9 @@ async function main() {
     process.stdout.write(`${error}\n`);
     process.stdout.write('emsdk not found, installing\n');
   }
-
+  console.log(1);
   try {
+    console.log(2);
     const file = createWriteStream(emsdkTar);
     await new Promise((resolve, reject) => {
       http.get('http://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz', (response) => {
@@ -60,11 +61,13 @@ async function main() {
         reject(error);
       });
     });
+    console.log(3);
   } catch (error) {
     process.stdout.write('Unable to download emsdk\n');
     process.stdout.write(`${error}\n`);
     process.exit(1);
   }
+  console.log(4);
 
   try {
     await tar.x({
