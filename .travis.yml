@@ -10,9 +10,6 @@ matrix:
   - os: linux
     node_js: '8'
     env: JOB_PART=unit
-  - os: windows
-    node_js: '8'
-    env: JOB_PART=unit
   - os: osx
     node_js: '8'
     env: JOB_PART=unit
