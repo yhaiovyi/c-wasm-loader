@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
-before_script:
-  - wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-5/libstdc++6_ 5.1.0-0ubuntu11~10.04.2_amd64.deb"
+before_install:
+  - wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-5/libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb"
   - sha256sum libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb 
   - ar xv libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb
   - tar xf data.tar.gz
