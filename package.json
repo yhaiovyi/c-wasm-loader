@@ -1,6 +1,6 @@
 {
   "name": "c-wasm-loader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "c to wasm loader for webpack",
   "main": "index.js",
   "emsdk": "1.37.34",
