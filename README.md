@@ -9,6 +9,8 @@
 
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
+[![tests][tests]][tests-url]
+[![coverage][cover]][cover-url]
 
 Webpack loader that allows you to import C/C++ files as WebAssembly. 
 
@@ -85,3 +87,9 @@ module.exports = {
 
 [deps]: https://img.shields.io/david/yhaiovyi/c-wasm-loader.svg
 [deps-url]: https://david-dm.org/yhaiovyi/c-wasm-loader
+
+[tests]: https://img.shields.io/travis/yhaiovyi/c-wasm-loader/master.svg
+[tests-url]: https://travis-ci.org/yhaiovyi/c-wasm-loader
+
+[cover]: https://coveralls.io/repos/github/yhaiovyi/c-wasm-loader/badge.svg?branch=master
+[cover-url]: https://coveralls.io/github/yhaiovyi/c-wasm-loader?branch=master
