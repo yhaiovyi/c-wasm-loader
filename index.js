@@ -96,13 +96,14 @@ module.exports = async function loader(content) {
     }
 
     const emccFlags = [
+      options.emccPath,
       inputFile,
       '-s', 'WASM=1',
       ...toConsumableArray(extraFlags),
       ...toConsumableArray(options.emccFlags),
       '-o', indexFile,
     ];
-    await $execFile(options.emccPath, emccFlags, { cwd });
+    await $execFile('cross-env', emccFlags, { cwd });
 
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
     const wasmContent = await $readFile(path.join(cwd, wasmFile));
