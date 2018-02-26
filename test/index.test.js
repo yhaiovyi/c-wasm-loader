@@ -1,5 +1,7 @@
 const webpack = require('./helpers/compiler');
 
+jest.setTimeout(60000);
+
 describe('Testing loader', () => {
   test('Defaults', async () => {
     const config = {
