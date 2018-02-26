@@ -17,8 +17,6 @@ const moduleAdapter = config => ({
     : [],
 });
 
-const pluginsAdapter = config => ([].concat(config.plugins || []));
-
 const outputAdapter = config => ({
   path: path.resolve(
     __dirname,
@@ -30,6 +28,12 @@ const outputAdapter = config => ({
 module.exports = (fixture, config, options) => {
   // webpack Config
   const updatedConfig = {
+    optimization: {
+      splitChunks: {
+        name: 'runtime',
+        minChunks: Infinity,
+      },
+    },
     externals: {
       fs: true,
     },
@@ -38,7 +42,7 @@ module.exports = (fixture, config, options) => {
     entry: `./${fixture}`,
     output: outputAdapter(config),
     module: moduleAdapter(config),
-    plugins: pluginsAdapter(config),
+    plugins: config.plugins,
   };
   // Compiler Options
   const updatedOptions = {
