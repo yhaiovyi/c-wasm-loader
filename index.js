@@ -95,6 +95,13 @@ module.exports = async function loader(content) {
       extraFlags = JSON.parse(match[1]);
     }
 
+
+// LLVM_ROOT=`${__dirname}/emsdk-portable/clang/e1.37.34_64bit`
+// EMSCRIPTEN_NATIVE_OPTIMIZER=`${__dirname}/emsdk-portable/clang/e1.37.34_64bit/optimizer`
+// BINARYEN_ROOT=`${__dirname}/emsdk-portable/clang/e1.37.34_64bit/binaryen`
+// NODE_JS=`${__dirname}/emsdk-portable/node/8.9.1_64bit/bin/node`
+// EMSCRIPTEN_ROOT=`${__dirname}/emsdk-portable/emscripten/1.37.34`
+
     const emccFlags = [
       options.emccPath,
       inputFile,
@@ -103,7 +110,7 @@ module.exports = async function loader(content) {
       ...toConsumableArray(options.emccFlags),
       '-o', indexFile,
     ];
-    await $execFile('cross-env', emccFlags, { cwd });
+    await $execFile(options.emccPath, emccFlags, { cwd });
 
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
     const wasmContent = await $readFile(path.join(cwd, wasmFile));

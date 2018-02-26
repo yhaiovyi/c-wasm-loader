@@ -97,7 +97,7 @@ async function main() {
   try {
     await $spawn(emsdkCommand, ['activate', `sdk-${packageJson.emsdk}-64bit`], {
       cwd,
-      stdio: 'inherit'
+      stdio: 'inherit',
     });
   } catch (error) {
     process.stdout.write('Unable to activate emsdk\n');
