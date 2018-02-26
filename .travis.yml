@@ -1,0 +1,30 @@
+sudo: false
+language: node_js
+before_install:
+  - wget "http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu/pool/main/g/gcc-5/libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb"
+  - sha256sum libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb 
+  - ar xv libstdc++6_5.1.0-0ubuntu11~10.04.2_amd64.deb
+  - tar xf data.tar.gz
+  - cd usr/lib/
+  - export LD_LIBRARY_PATH=${PWD}
+matrix:
+  include:
+  - os: linux
+    node_js: '8'
+    env: JOB_PART=lint
+  - os: linux
+    node_js: '8'
+    env: JOB_PART=unit
+  fast_finish: true
+install:
+- yarn --frozen-lockfile
+script: npm run travis:$JOB_PART
+after_success:
+- cat ./coverage/lcov.info | node_modules/.bin/coveralls --verbose
+- rm -rf ./coverage
+deploy:
+  branch: master
+  provider: npm
+  email: yurii.haiovyi@gmail.com
+  api_key:
+    secure: rZUiUDfjfwsZXTI6B1Qrh0B6A9QyzhbMVwLqREDfTmUlWRTvxFbb794Uw/pqKpylVGFV++uxuqF1mBwpuv+KI/iRBf14sqrEYTBUnmLtky9Uqkm63TLb80tHfNI0LSV3pmQj3Jk13c+9JEnRJOm9U2FhA3fu1NB6iYWUn3gVSvmnqzL0MdzIn1Kz5izZitJcKIGje3ar+PCY66AuKu0+Vm93gvzYyuhm+9eZMPKmnIzkC03o4nG1FgVNJ23apcB6CjJJcdpz9SCNsrDPSxazlzuNE+HEIEusvoChSiz41XCuvUOyuu+L8Rd6qNUGiTABYonxAWZim8Y7qLSOBrguUUe7Bv0wfwDzLPR5In/poYU/KUfL27y943E5buyHbhj4yq4aIonzdpbrLDjGRL7PBbq3xnlXN2jw5VBVzIOY55U1GffVwYCQ3mPlsyb+WE8+wRHpxQLdyKSiK4lZYyotnncpD/tRGi4qRWHdl3ZWKYT74WJ9wu72aQgyWvW5GKd9NGIjlFLBiuc4T4onrPrhZUDXfyMwLWIOLeYVW0QxZ9oNFebB1uLe6cKbebkXIL+s0vpuD2WwhidWHahfan2ir/QLcx1DE1xEqrX+9lo1ago9zWJJnRKgWIE3P4m4nh647xGdvHWBeXSg20GElDOCjHK6hspJF/wnfPaseUIvCk0=

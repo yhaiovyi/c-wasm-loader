@@ -57,6 +57,9 @@ hello.then((module) => {
 **webpack.config.js**
 ```js
 module.exports = {
+  externals: {
+    fs: true
+  },
   module: {
     rules: [
       {

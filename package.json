@@ -1,6 +1,6 @@
 {
   "name": "c-wasm-loader",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "c to wasm loader for webpack",
   "main": "index.js",
   "emsdk": "1.37.34",
@@ -9,7 +9,10 @@
   },
   "scripts": {
     "lint": "eslint --ignore-path .gitignore .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "travis:unit": "npm test -- --coverage",
+    "travis:lint": "npm run lint",
     "postinstall": "node ./postinstall.js"
   },
   "repository": {
@@ -36,10 +39,27 @@
     "tar": "^4.4.0"
   },
   "devDependencies": {
+    "coveralls": "^3.0.0",
+    "del": "^3.0.0",
     "eslint": "^4.18.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
-    "eslint-plugin-react": "^7.7.0"
+    "eslint-plugin-react": "^7.7.0",
+    "jest": "^22.4.2",
+    "memory-fs": "^0.4.1",
+    "webpack": "^4.0.0"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/emsdk-portable/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/emsdk-portable/",
+      "<rootDir>/test/",
+      "<rootDir>/postinstall.js"
+    ]
   }
 }

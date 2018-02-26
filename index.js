@@ -82,7 +82,7 @@ module.exports = async function loader(content) {
     outputPath = `${base}.wasm`;
 
     const hash = md5(content);
-    const inputFile = `${hash}.${ext}`;
+    const inputFile = `${hash}${ext}`;
     const indexFile = `${hash}.js`;
     const wasmFile = `${hash}.wasm`;
 
