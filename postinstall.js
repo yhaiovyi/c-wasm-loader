@@ -28,7 +28,7 @@ function $spawn(...args) {
 async function main() {
   const tmp = await $mkdtemp(path.join(tmpdir(), 'c-wasm-postinstall-'));
   const emsdkTar = path.join(tmp, 'emsdk-portable.tar.gz');
-  const cwd = path.join(process.cwd(), 'emsdk-portable');
+  const cwd = path.join(__dirname, 'emsdk-portable');
 
   try {
     const stats = await $lstat(path.join(cwd, 'emscripten', packageJson.emsdk, 'em++'));
