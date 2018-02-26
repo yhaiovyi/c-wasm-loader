@@ -79,6 +79,8 @@ async function main() {
     process.exit(1);
   }
 
+  await $spawn('dir', [], { cwd, stdio: 'inherit' });
+
   try {
     await $spawn('./emsdk', ['update'], { cwd, stdio: 'inherit' });
   } catch (error) {
