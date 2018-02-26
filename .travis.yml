@@ -7,7 +7,6 @@ before_install:
   - tar xf data.tar.gz
   - cd usr/lib/
   - export LD_LIBRARY_PATH=${PWD}
-  - emcc
 matrix:
   include:
   - os: linux
