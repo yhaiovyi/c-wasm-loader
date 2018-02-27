@@ -39,7 +39,6 @@ function defaultOptions(options) {
 }
 
 module.exports = async function loader(content) {
-  console.log(this.resourcePath);
   const callback = this.async();
   let cwd = null;
 
