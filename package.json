@@ -18,8 +18,8 @@
   },
   "husky": {
     "hooks": {
-      "precommit": "npm run lint",
-      "prepush": "npm run lint && npm test"
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint && npm test"
     }
   },
   "repository": {
