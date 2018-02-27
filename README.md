@@ -14,7 +14,7 @@
 [![coverage][cover]][cover-url]
 
 Webpack loader that allows you to import C/C++ files as WebAssembly. 
-This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes everyday, publish process is not standartized, so some builds are broken.
+This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes every day, publish process is not consistant, so some npm versions are broken.
 
 <h2 align="center">Install</h2>
 
