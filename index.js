@@ -127,11 +127,11 @@ module.exports = async function loader(content) {
     const module = `
       module.exports = (function(params) {
         return new Promise((resolve) => {
-          var Module = Object.apply({
+          var Module = Object.assign({
             onRuntimeInitialized: function() {
               resolve(Module);
             }
-          }, params);
+          }, params || {});
           ${indexContent};
         });
       });

@@ -4,11 +4,11 @@ exports[`Testing loader Defaults 1`] = `
 "
       module.exports = (function(params) {
         return new Promise((resolve) => {
-          var Module = Object.apply({
+          var Module = Object.assign({
             onRuntimeInitialized: function() {
               resolve(Module);
             }
-          }, params);
+          }, params || {});
           // The Module object: Our interface to the outside world. We import
 // and export values on it. There are various ways Module can be used:
 // 1. Not defined. We create it here
