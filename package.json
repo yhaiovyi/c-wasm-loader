@@ -14,9 +14,13 @@
     "travis:unit": "npm test -- --coverage",
     "travis:lint": "npm run lint",
     "appveyor:unit": "npm test -- --coverage",
-    "postinstall": "node ./postinstall.js",
-    "precommit": "npm run lint",
-    "prepush": "npm run lint && npm test"
+    "postinstall": "node ./postinstall.js"
+  },
+  "husky": {
+    "hooks": {
+      "precommit": "npm run lint",
+      "prepush": "npm run lint && npm test"
+    }
   },
   "repository": {
     "type": "git",
