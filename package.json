@@ -14,8 +14,13 @@
     "travis:unit": "npm test -- --coverage",
     "travis:lint": "npm run lint",
     "appveyor:unit": "npm test -- --coverage",
-    "postinstall": "node ./postinstall.js",
-    "my": "cross-env LLVM_ROOT='/Users/yhaiovyi/c-wasm-loader/emsdk-portable/clang/e1.37.34_64bit' echo $LLVM_ROOT"
+    "postinstall": "node ./postinstall.js"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint && npm test"
+    }
   },
   "repository": {
     "type": "git",
@@ -35,7 +40,6 @@
   "homepage": "https://github.com/yhaiovyi/c-wasm-loader#readme",
   "dependencies": {
     "loader-utils": "^1.1.0",
-    "md5": "^2.2.1",
     "rimraf": "^2.6.2",
     "schema-utils": "^0.4.5",
     "tar": "^4.4.0"
@@ -48,6 +52,7 @@
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
+    "husky": "^0.15.0-rc.8",
     "jest": "^22.4.2",
     "memory-fs": "^0.4.1",
     "webpack": "^4.0.0"
