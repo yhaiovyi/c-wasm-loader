@@ -49,7 +49,6 @@ You can configure a custom filename template for your file using the query param
 ### `limit`
 
 If the file is greater than the limit (in bytes) the [`file-loader`](https://github.com/webpack-contrib/file-loader) is used by default and all query parameters are passed to it.
-You can use other loader using `fallback` option.
 
 The limit can be specified via loader options and defaults to no limit.
 
