@@ -13,8 +13,8 @@
 [![builds][builds]][builds-url]
 [![coverage][cover]][cover-url]
 
-Webpack loader that allows you to import C/C++ files as WebAssembly. 
-This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes every day, publish process is not consistant, so some npm versions are broken.
+Webpack loader that allows you to import C/C++ files as WebAssembly.
+This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes every day, publish process is not consistent, so some npm versions are broken.
 
 <h2 align="center">Install</h2>
 
@@ -40,11 +40,13 @@ This package automatically installs portable emsdk, so you should have cmake onl
 |**`regExp`**|`{RegExp}`|`'undefined'`|Let you extract some parts of the file path to reuse them in the `name` property|
 |**`outputPath`**|`{String\|Function}`|`'undefined'`|Configure a custom `output` path for your file|
 |**`useRelativePath`**|`{Boolean}`|`false`|Should be `true` if you wish to generate a `context` relative URL for each file|
-|**[`limit`](#limit)**|`{Number}`|`undefined`|Byte limit to inline compiled files as Data URL|
+|**[`limit`](#limit)**|`{Number\|String}`|`undefined`|Byte limit to inline compiled files as Data URL|
+|**[`optimizationLevel`](#optimizationLevel)**|`{Number}`|`undefined`|Optimization level for emscripten compiler|
+|**[`debugLevel`](#debugLevel)**|`{Number}`|`undefined`|Debug level for emscripten compiler|
 
 ### `name`
 
-You can configure a custom filename template for your file using the query parameter `name`. For instance, to copy a file from your `context` directory into the output directory retaining the full directory structure, you might use
+You can configure a custom filename template for your file using the query parameter `name`.
 
 ### `limit`
 
@@ -52,17 +54,31 @@ If the file is greater than the limit (in bytes) the [`file-loader`](https://git
 
 The limit can be specified via loader options and defaults to no limit.
 
+### `optimizationLevel`
+
+Code is optimized by specifying optimization flags when running emcc. The levels include: 0 (no optimization), 1, 2, s, z, 3.
+
+Emcc strips out most of the debug information from optimized builds by default. Optimisation levels 0 and above remove LLVM debug information, and also disable runtime ASSERTIONS checks. From optimization level -02 the code is minified by the Closure Compiler and becomes virtually unreadable.
+
+### `debugLevel`
+
+Can be used to preserve debug information in the compiled output. By default, this option preserves white-space, function names and variable names.
+
+The flag can also be specified with one of five levels: 0, 1, 2, 3, 4. Each level builds on the last to provide progressively more debug information in the compiled output.
+
+If set to 4 provides the most debug information — it generates source maps that allow you to view and debug the C/C++ source code in your browser’s debugger on Firefox, Chrome or Safari!
+
 <h2 align="center">Usage</h2>
 
 **hello.c**
 ```c
 #include <emscripten/emscripten.h>
- 
+
 extern "C" {
   int main(int argc, char ** argv) {
     printf("Hello\n");
   }
-   
+
   int EMSCRIPTEN_KEEPALIVE world() {
     printf("World\n");
   }

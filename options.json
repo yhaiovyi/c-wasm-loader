@@ -18,6 +18,12 @@
     },
     "regExp": {
       "instanceof": "RegExp"
+    },
+    "optimizationLevel": {
+      "type": ["string", "number"]
+    },
+    "debugLevel": {
+      "type": ["string", "number"]
     }
   },
   "additionalProperties": false
