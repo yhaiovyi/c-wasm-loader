@@ -5,7 +5,7 @@
 const { promisify } = require('util');
 const { getOptions, interpolateName } = require('loader-utils');
 const { execFile } = require('child_process');
-const { readFile, writeFile, mkdtemp } = require('fs');
+const { readFile, mkdtemp } = require('fs');
 const { tmpdir, platform } = require('os');
 const path = require('path');
 const rimraf = require('rimraf');
@@ -16,7 +16,6 @@ const schema = require('./options.json');
 
 const $execFile = promisify(execFile);
 const $readFile = promisify(readFile);
-const $writeFile = promisify(writeFile);
 const $mkdtemp = promisify(mkdtemp);
 const $rimraf = promisify(rimraf);
 
@@ -48,12 +47,10 @@ module.exports = async function loader(content) {
     options = defaultOptions(options);
 
     // Set limit for resource inlining (file size)
-    let { limit, optimizationLevel, debugLevel } = options;
+    const { optimizationLevel } = options;
+    let { limit, debugLevel } = options;
     if (limit) {
       limit = parseInt(limit, 10);
-    }
-    if (typeof optimizationLevel !== 'undefined') {
-      optimizationLevel = parseInt(optimizationLevel, 10);
     }
     if (typeof debugLevel !== 'undefined') {
       debugLevel = parseInt(debugLevel, 10);
