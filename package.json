@@ -35,7 +35,6 @@
   "homepage": "https://github.com/yhaiovyi/c-wasm-loader#readme",
   "dependencies": {
     "loader-utils": "^1.1.0",
-    "md5": "^2.2.1",
     "rimraf": "^2.6.2",
     "schema-utils": "^0.4.5",
     "tar": "^4.4.0"
