@@ -4,7 +4,7 @@ const path = require('path');
 const http = require('http');
 const tar = require('tar');
 const { mkdtemp, createWriteStream, lstat } = require('fs');
-const { tmpdir } = require('os');
+const { tmpdir, platform } = require('os');
 const rimraf = require('rimraf');
 const packageJson = require('./package.json');
 
@@ -28,7 +28,7 @@ function $spawn(...args) {
 async function main() {
   const tmp = await $mkdtemp(path.join(tmpdir(), 'c-wasm-postinstall-'));
   const emsdkTar = path.join(tmp, 'emsdk-portable.tar.gz');
-  const cwd = path.join(process.cwd(), 'emsdk-portable');
+  const cwd = path.join(__dirname, 'emsdk-portable');
 
   try {
     const stats = await $lstat(path.join(cwd, 'emscripten', packageJson.emsdk, 'em++'));
@@ -76,8 +76,10 @@ async function main() {
     process.exit(1);
   }
 
+  const emsdkCommand = (platform() === 'win32') ? 'emsdk.bat' : './emsdk';
+
   try {
-    await $spawn('./emsdk', ['update'], { cwd, stdio: 'inherit' });
+    await $spawn(emsdkCommand, ['update'], { cwd, stdio: 'inherit' });
   } catch (error) {
     process.stdout.write('Unable to update emsdk\n');
     process.stdout.write(`${error}\n`);
@@ -85,17 +87,9 @@ async function main() {
   }
 
   try {
-    await $spawn('./emsdk', ['install', `sdk-${packageJson.emsdk}-64bit`], { cwd, stdio: 'inherit' });
+    await $spawn(emsdkCommand, ['install', `sdk-${packageJson.emsdk}-64bit`], { cwd, stdio: 'inherit' });
   } catch (error) {
     process.stdout.write('Unable to install emsdk\n');
-    process.stdout.write(`${error}\n`);
-    process.exit(1);
-  }
-
-  try {
-    await $spawn('./emsdk', ['activate', `sdk-${packageJson.emsdk}-64bit`], { cwd, stdio: 'inherit' });
-  } catch (error) {
-    process.stdout.write('Unable to activate emsdk\n');
     process.stdout.write(`${error}\n`);
     process.exit(1);
   }

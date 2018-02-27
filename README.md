@@ -13,6 +13,7 @@
 [![coverage][cover]][cover-url]
 
 Webpack loader that allows you to import C/C++ files as WebAssembly. 
+This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes everyday, publish process is not standartized, so some builds are broken.
 
 <h2 align="center">Install</h2>
 
@@ -51,7 +52,7 @@ extern "C" {
 ```js
 import hello from './hello.c';
 
-hello.then((module) => {
+hello().then((module) => {
   module._world();
 });
 ```

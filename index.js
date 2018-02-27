@@ -23,7 +23,7 @@ const $rimraf = promisify(rimraf);
 
 function getDefaultEmccPath() {
   return path.join(
-    process.cwd(),
+    __dirname,
     'emsdk-portable',
     'emscripten',
     packageJson.emsdk,
@@ -31,23 +31,12 @@ function getDefaultEmccPath() {
   );
 }
 
-function toConsumableArray(array) {
-  return Array.isArray(array) ? [...array] : Array.from(array);
-}
-
 function defaultOptions(options) {
   return {
     emccPath: getDefaultEmccPath(),
-    emccFlags: ['-O3'],
+    emccFlags: [],
     ...options,
   };
-}
-
-function getBase(pathToFile) {
-  return path.format({
-    dir: path.dirname(pathToFile),
-    base: path.basename(pathToFile, path.extname(pathToFile)),
-  });
 }
 
 module.exports = async function loader(content) {
@@ -61,11 +50,12 @@ module.exports = async function loader(content) {
 
     const context = options.context || this.rootContext || (this.options && this.options.context);
 
-    const url = interpolateName(this, options.name, {
+    let url = interpolateName(this, options.name, {
       context,
       content,
       regExp: options.regExp,
     });
+    url = url.replace(/\.(c|cpp)$/, '.wasm');
 
     let outputPath = url;
 
@@ -77,52 +67,67 @@ module.exports = async function loader(content) {
       }
     }
 
-    const ext = path.extname(url);
-    const base = getBase(outputPath);
-    outputPath = `${base}.wasm`;
+    if (options.useRelativePath) {
+      const filePath = this.resourcePath;
 
-    const hash = md5(content);
-    const inputFile = `${hash}${ext}`;
-    const indexFile = `${hash}.js`;
-    const wasmFile = `${hash}.wasm`;
+      /* eslint-disable no-underscore-dangle */
+      const issuerContext = context || (
+        this._module &&
+        this._module.issuer &&
+        this._module.issuer.context
+      );
+      /* eslint-enable no-underscore-dangle */
+
+      const relativeUrl = issuerContext && path.relative(issuerContext, filePath)
+        .split(path.sep)
+        .join('/');
+
+      const relativePath = relativeUrl && `${path.dirname(relativeUrl)}/`;
+      // eslint-disable-next-line no-bitwise
+      if (~relativePath.indexOf('../')) {
+        outputPath = path.posix.join(outputPath, relativePath, url);
+      } else {
+        outputPath = path.posix.join(relativePath, url);
+      }
+    }
+
+    const inputFile = 'input.c';
+    const indexFile = 'output.js';
+    const wasmFile = 'output.wasm';
+    const publicPath = `__webpack_public_path__ + ${JSON.stringify(outputPath)}`;
 
     cwd = await $mkdtemp(path.join(tmpdir(), 'c-wasm-loader-'));
     await $writeFile(path.join(cwd, inputFile), content);
 
-    const match = content.match(/^[\s\n]*\/\/\s*emcc-flags\s+([^\n]+)/);
-    let extraFlags = [];
-    if (match) {
-      extraFlags = JSON.parse(match[1]);
-    }
-
     const emccFlags = [
       inputFile,
       '-s', 'WASM=1',
-      ...toConsumableArray(extraFlags),
-      ...toConsumableArray(options.emccFlags),
+      ...(options.embedded ? ['-s', 'SINGLE_FILE=1'] : []), // Embed wasm to js, so we don't need to deal with stupid urls
       '-o', indexFile,
     ];
     await $execFile(options.emccPath, emccFlags, { cwd });
 
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
-    const wasmContent = await $readFile(path.join(cwd, wasmFile));
 
-    indexContent = indexContent.replace(wasmFile, outputPath);
+    if (!options.embedded) {
+      const wasmContent = await $readFile(path.join(cwd, wasmFile));
+      // Replace emscripten generated url with webpack generated
+      indexContent = indexContent.replace(/'[^']*output\.[.a-z]+'/g, publicPath);
 
-    this.emitFile(outputPath, wasmContent);
+      this.emitFile(outputPath, wasmContent);
+    }
 
     const module = `
-      module.exports = (function() {
+      module.exports = (function(params) {
         return new Promise((resolve) => {
-          var Module = {
+          var Module = Object.apply({
             onRuntimeInitialized: function() {
               resolve(Module);
             }
-          };
+          }, params);
           ${indexContent};
-          return Module;
         });
-      })();
+      });
     `;
 
     callback(null, module);
