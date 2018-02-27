@@ -39,6 +39,7 @@ function defaultOptions(options) {
 }
 
 module.exports = async function loader(content) {
+  console.log(this.resourcePath);
   const callback = this.async();
   let cwd = null;
 
@@ -61,8 +62,10 @@ module.exports = async function loader(content) {
       content,
       regExp: options.regExp,
     });
-    // TODO: Fine better solution for the following line
-    url = url.replace(/\.(c|cpp)$/, '.wasm');
+
+    const inputExt = path.extname(url);
+    url = url.slice(0, -inputExt.length);
+    url =`${url}.wasm`;
 
     let outputPath = url;
 
@@ -98,16 +101,14 @@ module.exports = async function loader(content) {
       }
     }
 
-    const inputFile = 'input.c';
     const indexFile = 'output.js';
     const wasmFile = 'output.wasm';
     const publicPath = `__webpack_public_path__ + ${JSON.stringify(outputPath)}`;
 
     cwd = await $mkdtemp(path.join(tmpdir(), 'c-wasm-loader-'));
-    await $writeFile(path.join(cwd, inputFile), content);
 
     const emccFlags = [
-      inputFile,
+      this.resourcePath,
       '-s', 'WASM=1',
       ...(embedded ? ['-s', 'SINGLE_FILE=1'] : []), // Embed wasm to js, so we don't need to deal with stupid urls
       '-o', indexFile,
