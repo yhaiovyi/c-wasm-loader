@@ -10,9 +10,11 @@
 [![node][node]][node-url]
 [![deps][deps]][deps-url]
 [![tests][tests]][tests-url]
+[![builds][builds]][builds-url]
 [![coverage][cover]][cover-url]
 
 Webpack loader that allows you to import C/C++ files as WebAssembly. 
+This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes everyday, publish process is not standartized, so some builds are broken.
 
 <h2 align="center">Install</h2>
 
@@ -29,6 +31,27 @@ yarn add c-wasm-loader --dev
 ```
 
 This package automatically installs portable emsdk, so you should have cmake only available.
+
+<h2 align="center">Options</h2>
+
+|Name|Type|Default|Description|
+|:--:|:--:|:-----:|:----------|
+|**[`name`](#name)**|`{String\|Function}`|`[hash].[ext]`|Configure a custom filename template for your file|
+|**`regExp`**|`{RegExp}`|`'undefined'`|Let you extract some parts of the file path to reuse them in the `name` property|
+|**`outputPath`**|`{String\|Function}`|`'undefined'`|Configure a custom `output` path for your file|
+|**`useRelativePath`**|`{Boolean}`|`false`|Should be `true` if you wish to generate a `context` relative URL for each file|
+|**[`limit`](#limit)**|`{Number}`|`undefined`|Byte limit to inline compiled files as Data URL|
+
+### `name`
+
+You can configure a custom filename template for your file using the query parameter `name`. For instance, to copy a file from your `context` directory into the output directory retaining the full directory structure, you might use
+
+### `limit`
+
+If the file is greater than the limit (in bytes) the [`file-loader`](https://github.com/webpack-contrib/file-loader) is used by default and all query parameters are passed to it.
+You can use other loader using `fallback` option.
+
+The limit can be specified via loader options and defaults to no limit.
 
 <h2 align="center">Usage</h2>
 
@@ -51,7 +74,7 @@ extern "C" {
 ```js
 import hello from './hello.c';
 
-hello.then((module) => {
+hello().then((module) => {
   module._world();
 });
 ```
@@ -90,6 +113,9 @@ module.exports = {
 
 [tests]: https://img.shields.io/travis/yhaiovyi/c-wasm-loader/master.svg
 [tests-url]: https://travis-ci.org/yhaiovyi/c-wasm-loader
+
+[builds-url]: https://ci.appveyor.com/project/sokra/webpack/yhaiovyi/c-wasm-loader
+[builds]: https://ci.appveyor.com/api/projects/status/github/yhaiovyi/c-wasm-loader?svg=true
 
 [cover]: https://coveralls.io/repos/github/yhaiovyi/c-wasm-loader/badge.svg?branch=master
 [cover-url]: https://coveralls.io/github/yhaiovyi/c-wasm-loader?branch=master

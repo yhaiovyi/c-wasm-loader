@@ -1,6 +1,6 @@
 {
   "name": "c-wasm-loader",
-  "version": "0.1.3",
+  "version": "1.0.0-alpha",
   "description": "c to wasm loader for webpack",
   "main": "index.js",
   "emsdk": "1.37.34",
@@ -13,7 +13,9 @@
     "test:watch": "jest --watchAll",
     "travis:unit": "npm test -- --coverage",
     "travis:lint": "npm run lint",
-    "postinstall": "node ./postinstall.js"
+    "appveyor:unit": "npm test -- --coverage",
+    "postinstall": "node ./postinstall.js",
+    "my": "cross-env LLVM_ROOT='/Users/yhaiovyi/c-wasm-loader/emsdk-portable/clang/e1.37.34_64bit' echo $LLVM_ROOT"
   },
   "repository": {
     "type": "git",

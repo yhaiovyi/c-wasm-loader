@@ -1,0 +1,28 @@
+# appveyor file
+# http://www.appveyor.com/docs/appveyor-yml
+
+init:
+  - git config --global core.autocrlf input
+
+# what combinations to test
+environment:
+  matrix:
+    - nodejs_version: 8
+      job_part: unit
+
+install:
+  - ps: Install-Product node $env:nodejs_version x64
+  - npm install yarn -g
+  - yarn install --frozen-lockfile
+
+build: off
+
+matrix:
+  fast_finish: true
+
+test_script:
+  - node --version
+  - npm --version
+  - yarn --version
+  - cmd: npm run appveyor:%job_part%
+  - cmd: npm install -g codecov && codecov -F %job_part%

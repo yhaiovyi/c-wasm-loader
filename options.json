@@ -1,15 +1,14 @@
 {
   "type": "object",
   "properties": {
-    "emccPath": {
-      "type": "string"
-    },
-    "emccFlags": {},
     "buildPath": {
       "type": "string"
     },
     "name": {
       "type": "string"
+    },
+    "limit": {
+      "type": ["string", "number"]
     },
     "outputPath": {
       "anyOf": [
