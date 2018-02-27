@@ -13,8 +13,8 @@
 [![builds][builds]][builds-url]
 [![coverage][cover]][cover-url]
 
-Webpack loader that allows you to import C/C++ files as WebAssembly. 
-This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes every day, publish process is not consistant, so some npm versions are broken.
+Webpack loader that allows you to import C/C++ files as WebAssembly.
+This project is in very early development stage, and you're very welcome to contribute or file tickets, as well as it's not released yet, so api changes every day, publish process is not consistent, so some npm versions are broken.
 
 <h2 align="center">Install</h2>
 
@@ -44,7 +44,7 @@ This package automatically installs portable emsdk, so you should have cmake onl
 
 ### `name`
 
-You can configure a custom filename template for your file using the query parameter `name`. For instance, to copy a file from your `context` directory into the output directory retaining the full directory structure, you might use
+You can configure a custom filename template for your file using the query parameter `name`.
 
 ### `limit`
 
@@ -57,12 +57,12 @@ The limit can be specified via loader options and defaults to no limit.
 **hello.c**
 ```c
 #include <emscripten/emscripten.h>
- 
+
 extern "C" {
   int main(int argc, char ** argv) {
     printf("Hello\n");
   }
-   
+
   int EMSCRIPTEN_KEEPALIVE world() {
     printf("World\n");
   }
