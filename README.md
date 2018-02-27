@@ -32,6 +32,27 @@ yarn add c-wasm-loader --dev
 
 This package automatically installs portable emsdk, so you should have cmake only available.
 
+<h2 align="center">Options</h2>
+
+|Name|Type|Default|Description|
+|:--:|:--:|:-----:|:----------|
+|**[`name`](#name)**|`{String\|Function}`|`[hash].[ext]`|Configure a custom filename template for your file|
+|**`regExp`**|`{RegExp}`|`'undefined'`|Let you extract some parts of the file path to reuse them in the `name` property|
+|**`outputPath`**|`{String\|Function}`|`'undefined'`|Configure a custom `output` path for your file|
+|**`useRelativePath`**|`{Boolean}`|`false`|Should be `true` if you wish to generate a `context` relative URL for each file|
+|**[`limit`](#limit)**|`{Number}`|`undefined`|Byte limit to inline compiled files as Data URL|
+
+### `name`
+
+You can configure a custom filename template for your file using the query parameter `name`. For instance, to copy a file from your `context` directory into the output directory retaining the full directory structure, you might use
+
+### `limit`
+
+If the file is greater than the limit (in bytes) the [`file-loader`](https://github.com/webpack-contrib/file-loader) is used by default and all query parameters are passed to it.
+You can use other loader using `fallback` option.
+
+The limit can be specified via loader options and defaults to no limit.
+
 <h2 align="center">Usage</h2>
 
 **hello.c**
