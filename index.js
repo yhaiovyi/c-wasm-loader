@@ -48,9 +48,15 @@ module.exports = async function loader(content) {
     options = defaultOptions(options);
 
     // Set limit for resource inlining (file size)
-    let { limit } = options;
+    let { limit, optimizationLevel, debugLevel } = options;
     if (limit) {
       limit = parseInt(limit, 10);
+    }
+    if (typeof optimizationLevel !== 'undefined') {
+      optimizationLevel = parseInt(optimizationLevel, 10);
+    }
+    if (typeof debugLevel !== 'undefined') {
+      debugLevel = parseInt(debugLevel, 10);
     }
     const embedded = (limit > content.length);
 
@@ -64,7 +70,7 @@ module.exports = async function loader(content) {
 
     const inputExt = path.extname(url);
     url = url.slice(0, -inputExt.length);
-    url =`${url}.wasm`;
+    url = `${url}.wasm`;
 
     let outputPath = url;
 
@@ -109,6 +115,8 @@ module.exports = async function loader(content) {
     const emccFlags = [
       this.resourcePath,
       '-s', 'WASM=1',
+      ...(Number.isInteger(optimizationLevel) ? [`-O${optimizationLevel}`] : []),
+      ...(Number.isInteger(debugLevel) ? [`-g${debugLevel}`] : []),
       ...(embedded ? ['-s', 'SINGLE_FILE=1'] : []), // Embed wasm to js, so we don't need to deal with stupid urls
       '-o', indexFile,
     ];
