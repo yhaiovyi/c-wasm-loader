@@ -14,7 +14,8 @@
     "travis:unit": "npm test -- --coverage",
     "travis:lint": "npm run lint",
     "appveyor:unit": "npm test -- --coverage",
-    "postinstall": "node ./postinstall.js"
+    "postinstall": "node ./postinstall.js",
+    "my": "cross-env LLVM_ROOT='/Users/yhaiovyi/c-wasm-loader/emsdk-portable/clang/e1.37.34_64bit' echo $LLVM_ROOT"
   },
   "repository": {
     "type": "git",
