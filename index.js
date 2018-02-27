@@ -47,6 +47,13 @@ module.exports = async function loader(content) {
     validateOptions(schema, options, 'C WASM Loader');
     options = defaultOptions(options);
 
+    // Set limit for resource inlining (file size)
+    let { limit } = options;
+    if (limit) {
+      limit = parseInt(limit, 10);
+    }
+    const embedded = (limit > content.length);
+
     const context = options.context || this.rootContext || (this.options && this.options.context);
 
     let url = interpolateName(this, options.name, {
@@ -54,6 +61,7 @@ module.exports = async function loader(content) {
       content,
       regExp: options.regExp,
     });
+    // TODO: Fine better solution for the following line
     url = url.replace(/\.(c|cpp)$/, '.wasm');
 
     let outputPath = url;
@@ -101,14 +109,14 @@ module.exports = async function loader(content) {
     const emccFlags = [
       inputFile,
       '-s', 'WASM=1',
-      ...(options.embedded ? ['-s', 'SINGLE_FILE=1'] : []), // Embed wasm to js, so we don't need to deal with stupid urls
+      ...(embedded ? ['-s', 'SINGLE_FILE=1'] : []), // Embed wasm to js, so we don't need to deal with stupid urls
       '-o', indexFile,
     ];
     await $execFile(options.emccPath, emccFlags, { cwd });
 
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
 
-    if (!options.embedded) {
+    if (!embedded) {
       const wasmContent = await $readFile(path.join(cwd, wasmFile));
       // Replace emscripten generated url with webpack generated
       indexContent = indexContent.replace(/'[^']*output\.[.a-z]+'/g, publicPath);

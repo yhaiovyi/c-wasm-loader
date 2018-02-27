@@ -7,8 +7,8 @@
     "name": {
       "type": "string"
     },
-    "embedded": {
-      "type": "boolean"
+    "limit": {
+      "type": ["string", "number"]
     },
     "outputPath": {
       "anyOf": [
