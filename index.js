@@ -9,7 +9,6 @@ const { readFile, writeFile, mkdtemp } = require('fs');
 const { tmpdir, platform } = require('os');
 const path = require('path');
 const rimraf = require('rimraf');
-const md5 = require('md5');
 const validateOptions = require('schema-utils');
 
 const packageJson = require('./package.json');
