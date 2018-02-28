@@ -19,11 +19,17 @@
     "regExp": {
       "instanceof": "RegExp"
     },
+    "std": {
+      "type": ["string"]
+    },
     "optimizationLevel": {
       "type": ["string", "number"]
     },
     "debugLevel": {
       "type": ["string", "number"]
+    },
+    "includePaths": {
+      "type": "array"
     }
   },
   "additionalProperties": false

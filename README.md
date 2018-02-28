@@ -41,6 +41,8 @@ This package automatically installs portable emsdk, so you should have cmake onl
 |**`outputPath`**|`{String\|Function}`|`'undefined'`|Configure a custom `output` path for your file|
 |**`useRelativePath`**|`{Boolean}`|`false`|Should be `true` if you wish to generate a `context` relative URL for each file|
 |**[`limit`](#limit)**|`{Number\|String}`|`undefined`|Byte limit to inline compiled files as Data URL|
+|**`std`**|`{String}`|undefined|Choose one of ISO C++ standards (C++98 / C++03, C++11, and C++14)|
+|**`includePaths`**|`{Array}`|undefined||
 |**[`optimizationLevel`](#optimizationLevel)**|`{Number}`|`undefined`|Optimization level for emscripten compiler|
 |**[`debugLevel`](#debugLevel)**|`{Number}`|`undefined`|Debug level for emscripten compiler|
 

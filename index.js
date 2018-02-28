@@ -111,6 +111,8 @@ module.exports = async function loader(content) {
 
     const emccFlags = [
       this.resourcePath,
+      ...options.includePaths.reduce((acc, includePath) => acc.concat(['-I', includePath]), []),
+      ...(options.std ? [`-std=${options.std}`] : []),
       '-s', 'WASM=1',
       ...(Number.isInteger(optimizationLevel) ? [`-O${optimizationLevel}`] : []),
       ...(Number.isInteger(debugLevel) ? [`-g${debugLevel}`] : []),
@@ -151,3 +153,4 @@ module.exports = async function loader(content) {
     }
   }
 };
+
