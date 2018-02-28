@@ -33,6 +33,7 @@ function defaultOptions(options) {
   return {
     emccPath: getDefaultEmccPath(),
     emccFlags: [],
+    includePaths: [],
     ...options,
   };
 }
