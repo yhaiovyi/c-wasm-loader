@@ -30,6 +30,9 @@
     },
     "includePaths": {
       "type": "array"
+    },
+    "bind": {
+      "type": "boolean"
     }
   },
   "additionalProperties": false

@@ -43,6 +43,7 @@ This package automatically installs portable emsdk, so you should have cmake onl
 |**[`limit`](#limit)**|`{Number\|String}`|`undefined`|Byte limit to inline compiled files as Data URL|
 |**`std`**|`{String}`|undefined|Choose one of ISO C++ standards (C++98 / C++03, C++11, and C++14)|
 |**`includePaths`**|`{Array}`|undefined||
+|**`bind`**|`{Boolean}`|`false`||
 |**[`optimizationLevel`](#optimizationLevel)**|`{Number}`|`undefined`|Optimization level for emscripten compiler|
 |**[`debugLevel`](#debugLevel)**|`{Number}`|`undefined`|Debug level for emscripten compiler|
 

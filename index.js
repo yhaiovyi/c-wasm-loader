@@ -109,9 +109,9 @@ module.exports = async function loader(content) {
     const publicPath = `__webpack_public_path__ + ${JSON.stringify(outputPath)}`;
 
     cwd = await $mkdtemp(path.join(tmpdir(), 'c-wasm-loader-'));
-
     const emccFlags = [
       this.resourcePath,
+      ...(options.bind ? ['--bind'] : []),
       ...options.includePaths.reduce((acc, includePath) => acc.concat(['-I', includePath]), []),
       ...(options.std ? [`-std=${options.std}`] : []),
       '-s', 'WASM=1',
@@ -120,7 +120,7 @@ module.exports = async function loader(content) {
       ...(embedded ? ['-s', 'SINGLE_FILE=1'] : []), // Embed wasm to js, so we don't need to deal with stupid urls
       '-o', indexFile,
     ];
-    await $execFile(options.emccPath, emccFlags, { cwd });
+    await $execFile(options.emccPath, emccFlags, { cwd, stdio: 'inherit' });
 
     let indexContent = await $readFile(path.join(cwd, indexFile), 'utf8');
 
