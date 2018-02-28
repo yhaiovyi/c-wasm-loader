@@ -106,7 +106,7 @@ async function main() {
   }
 
   try {
-    await $spawn(path.join(`emsdk-portable/emscripten/${packageJson.emsdk}/em++`), ['--version'], {
+    await $spawn(path.join(cwd, `emscripten/${packageJson.emsdk}/em++`), ['--version'], {
       cwd,
       stdio: 'inherit',
     });
