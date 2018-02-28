@@ -105,17 +105,6 @@ async function main() {
     process.exit(1);
   }
 
-  try {
-    await $spawn(path.join(cwd, `emscripten/${packageJson.emsdk}/em++`), ['--version'], {
-      cwd,
-      stdio: 'inherit',
-    });
-  } catch (error) {
-    process.stdout.write('Binary doesn\'t exsist or fails to run, see details below\n');
-    process.stdout.write(`${error}\n`);
-    process.exit(1);
-  }
-
   await $rimraf(tmp);
 }
 
